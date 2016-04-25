@@ -43,7 +43,7 @@ namespace TestForIronScheme
                 //DisplayArea.Text = schemeHandler.Evaluate(Input.GetLineText(Input.LineCount - 2)).ToString();
                 makeDot(5,5);
                 makeDot(-5, -5);
-
+                makeDot(0,0);
             }
         }
 
@@ -52,6 +52,25 @@ namespace TestForIronScheme
             var centerX = myCanvas.ActualWidth/2;
             var centerY = myCanvas.ActualHeight / 2;
 
+            var myLine1 = new Line();
+            myLine1.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            myLine1.X1 = centerX - 30;
+            myLine1.X2 = centerX + 30;
+            myLine1.Y1 = centerY + 0;
+            myLine1.Y2 = centerY + 0;
+           
+            myLine1.StrokeThickness = 1;
+            myCanvas.Children.Add(myLine1);
+
+            var myLine2 = new Line();
+            myLine2.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            myLine2.X1 = centerX + 0;
+            myLine2.X2 = centerX + 0;
+            myLine2.Y1 = centerY - 30;
+            myLine2.Y2 = centerY + 30;
+
+            myLine2.StrokeThickness = 1;
+            myCanvas.Children.Add(myLine2);
 
             Ellipse myEllipse = new Ellipse();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
