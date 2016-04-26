@@ -1,0 +1,60 @@
+;Draw line Bresenham's algorithm
+(define line (lambda (x0 y0 x1 y1)
+               (define dx (lambda () (abs (- x1 x0))))
+               (define dy (lambda () (abs (- y1 y0))))
+               (define sx (lambda () (if (> x0 x1) -1 1)))
+               (define sy (lambda () (if (> y0 y1) -1 1)))
+               
+               (define newerr (lambda (err)
+                                (- err (dy))
+                                )
+                 )
+               
+               (define print-point (lambda (x y)
+                                     (display "(")
+                                     (display x)
+                                     (display ";")
+                                     (display y)
+                                     (display ")")
+                                     (newline)
+                                     )
+                 )
+               
+               
+               (define loop-x (lambda (x y err)
+                                (if (= x x1)
+                                    (display "done")
+                                    (begin
+                                      (print-point x y)
+                                      (if (< (newerr err) 0)
+                                          (loop-x (+ x (sx)) (+ y (sy)) (+ (newerr err) (dx)))
+                                          (loop-x (+ x (sx)) y (newerr err))
+                                          )
+                                      )
+                                    )
+                                )
+                 )
+               
+               (define loop-y (lambda (x y err)
+                                (if (= y y1)
+                                    (display "done")
+                                    (begin
+                                      (print-point x y)
+                                      (if (< (newerr err) 0)
+                                          (loop-y (+ x (sx)) (+ y (sy)) (newerr err))
+                                          (loop-y x (+ y (sy)) (+ (newerr err) (dy)))
+                                          )
+                                      )
+                                    )
+                                )
+                 )
+               
+               (if (> (dx) (dy))
+                   (loop-x x0 y0 (/ (dx) 2.0))
+                   (loop-y x0 y0 (/ (dy) 2.0))
+                   )
+               )
+  )
+
+
+(line 41 82 92 102)

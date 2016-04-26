@@ -17,7 +17,7 @@ namespace TestForIronScheme
 {
 
     using IronScheme; // the extension methods are exported from this namespace
-
+    using Newtonsoft.Json;
     public class SchemeHandler
     {
         public object Evaluate(string input)
@@ -38,18 +38,23 @@ namespace TestForIronScheme
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (/*(Keyboard.Modifiers == ModifierKeys.Control) && */(e.Key == Key.Enter))
             {
-                //DisplayArea.Text = schemeHandler.Evaluate(Input.GetLineText(Input.LineCount - 2)).ToString();
-                makeDot(5,5);
-                makeDot(-5, -5);
-                makeDot(0,0);
+                try
+                {
+                    DisplayArea.Text = schemeHandler.Evaluate(Input.Text).ToString();
+                }
+                catch(Exception ex)
+                {
+                    var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                    DisplayArea.Text = json;
+                }
             }
         }
 
         private void makeDot(double x, double y)
         {
-            var centerX = myCanvas.ActualWidth/2;
+            var centerX = myCanvas.ActualWidth / 2;
             var centerY = myCanvas.ActualHeight / 2;
 
             var myLine1 = new Line();
@@ -58,7 +63,7 @@ namespace TestForIronScheme
             myLine1.X2 = centerX + 30;
             myLine1.Y1 = centerY + 0;
             myLine1.Y2 = centerY + 0;
-           
+
             myLine1.StrokeThickness = 1;
             myCanvas.Children.Add(myLine1);
 
@@ -80,8 +85,8 @@ namespace TestForIronScheme
             myEllipse.Stroke = Brushes.White;
             myEllipse.Width = 5;
             myEllipse.Height = 5;
-            Canvas.SetTop(myEllipse, centerY-y);
-            Canvas.SetLeft(myEllipse,centerX+x);
+            Canvas.SetTop(myEllipse, centerY - y);
+            Canvas.SetLeft(myEllipse, centerX + x);
             myCanvas.Children.Add(myEllipse);
         }
     }
