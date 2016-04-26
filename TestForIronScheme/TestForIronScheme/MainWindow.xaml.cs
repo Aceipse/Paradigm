@@ -32,8 +32,8 @@ namespace TestForIronScheme
         {
             InitializeComponent();
             schemeHandler = new SchemeHandler();
-            //string text = System.IO.File.ReadAllText(@"D:\Dropbox\IHA\Civ 1.semester\Paradigms\ComprehensionTest.ss");
-            //schemeHandler.Evaluate(text);
+            string text = System.IO.File.ReadAllText(@"D:\Dropbox\IHA\Civ 1.semester\Paradigms\ComprehensionTest.ss");
+            schemeHandler.Evaluate(text);
         }
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
