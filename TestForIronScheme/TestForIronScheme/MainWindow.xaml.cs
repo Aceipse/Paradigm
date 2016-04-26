@@ -32,18 +32,21 @@ namespace TestForIronScheme
         {
             InitializeComponent();
             schemeHandler = new SchemeHandler();
-            //string text = System.IO.File.ReadAllText(@"D:\Dropbox\IHA\Civ 1.semester\Paradigms\ComprehensionTest.ss");
-            //schemeHandler.Evaluate(text);
+            string text = System.IO.File.ReadAllText(@"D:\Dropbox\IHA\Civ 1.semester\Paradigms\ComprehensionTest.ss");
+            schemeHandler.Evaluate(text);
         }
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                //DisplayArea.Text = schemeHandler.Evaluate(Input.GetLineText(Input.LineCount - 2)).ToString();
-                makeDot(5,5);
-                makeDot(-5, -5);
-                makeDot(0,0);
+                var input = Input.GetLineText(Input.LineCount - 2);
+                var returnVal = schemeHandler.Evaluate(input);
+
+                DisplayArea.Text = returnVal.ToString();
+                //makeDot(5,5);
+                //makeDot(-5, -5);
+                //makeDot(0,0);
             }
         }
 
