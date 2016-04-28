@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace TestForIronScheme
 {
@@ -32,8 +35,11 @@ namespace TestForIronScheme
         {
             InitializeComponent();
             schemeHandler = new SchemeHandler();
-            string text = System.IO.File.ReadAllText(@"D:\Dropbox\IHA\Civ 1.semester\Paradigms\ComprehensionTest.ss");
+            var path = Directory.GetCurrentDirectory();
+            path = path.Remove(path.Length - 9);
+            string text = System.IO.File.ReadAllText(path +@"SchemeCode.ss");
             schemeHandler.Evaluate(text);
+            
         }
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
@@ -42,7 +48,30 @@ namespace TestForIronScheme
             {
                 try
                 {
-                    DisplayArea.Text = schemeHandler.Evaluate(Input.Text).ToString();
+                    
+                    double x = 0;
+                    double y = 0;
+                    var val = schemeHandler.Evaluate(Input.Text);
+                    DisplayArea.Text = val.ToString();
+                    foreach (var cord in (IEnumerable) val)
+                    {
+                        int count = 0;
+                        foreach (var numb in (IEnumerable) cord)
+                        {
+                            if (count == 0)
+                            {
+                                x = Convert.ToDouble(numb.ToString());
+                                count++;
+                            }
+                            else
+                            {
+                                y = Convert.ToDouble(numb.ToString());
+                                count++;
+                            }
+                        }
+                        makeDot(x, y);
+                    }
+                   
                 }
                 catch(Exception ex)
                 {

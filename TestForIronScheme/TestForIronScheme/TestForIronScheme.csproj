@@ -358,7 +358,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="test.ss" />
+    <None Include="SchemeCode.ss" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
