@@ -1,82 +1,91 @@
-(define (drawCircle x0 y0 r)
+(
+ define (drawCircle x0 y0 r)
    (define f (- 1 r))
    (define ddf_x 1)
    (define ddf_y (* -2 r))
    (define x 0)
    (define y r)
+   (define addRecursivePoints (lambda (l x y x0 y0)
+                                   (append l `(
+                                                                       (,(+ x0 x) ,(+ y0 y))
+                                                                       (,(- x0 x) ,(+ y0 y))
+                                                                       (,(+ x0 x) ,(- y0 y))
+                                                                       (,(- x0 x) ,(- y0 y))
+                                                                       (,(+ x0 y) ,(+ y0 x))
+                                                                       (,(- x0 y) ,(+ y0 x))
+                                                                       (,(+ x0 y) ,(- y0 x))
+                                                                       (,(- x0 y) ,(- y0 x))
+                                                                       )
+                                     )
+                                   )
+     )
    
-   ; Our list of points starts with some defined points  
-   (define listToReturn (list `( ,x0 ,(+ y0 r) ) `(,x0 ,(- y0 r) ) `(,(+ x0 r) ,y0) `(,(- x0 r) ,y0)))
-   
-  ;recursive function to find other coordinates
-  (let loop ((x x)(y y)(ddf_y ddf_y)(ddf_x ddf_x)(f f)(x0 x0)(y0 y0)(listToReturn listToReturn))
-    
-    (display "Called with:\n")
+  
+   ; Our list of points starts with some defined points
+
+  
+  (define initialList (list `( ,x0 ,(+ y0 r) ) `(,x0 ,(- y0 r) ) `(,(+ x0 r) ,y0) `(,(- x0 r) ,y0)))
+
+  
+  (define displayCallValues (lambda  (x y ddf_y ddf_x f x0 y0 listToReturn)
+    (begin
+      (display "Called with:\n")
     (display `(x: ,x y: ,y ddf_y: ,ddf_y ddf_x: ,ddf_x f: ,f x0: ,x0 y0: ,y0 listToReturn: ,listToReturn))
     (display "\n")
+      )                              
+                             )
+    )
+  
+  
+  
+  (define firstLet (lambda (x y ddf_y ddf_x f x0 y0 listToReturn)
+                    (let* ((y (- y 1)) (ddf_y (+ ddf_y 2)) (f (+ f ddf_y)) (x (+ x 1)) (ddf_x (+ ddf_x 2)) (f (+ f ddf_x)))
+                 (loop x y ddf_y ddf_x f x0 y0 (addRecursivePoints listToReturn x y x0 y0))               
+             ) 
+                     )
+    )
+  
+    (define secondLet (lambda (x y ddf_y ddf_x f x0 y0 listToReturn)
+                     (let* ((x (+ x 1)) (ddf_x (+ ddf_x 2)) (f (+ f ddf_x)))                    
+                 (loop x y ddf_y ddf_x f x0 y0 (addRecursivePoints listToReturn x y x0 y0))    
+             )
+                     )
+      )
+  
+  (define displayDoneAndReturn(lambda (listToReturn)
+
+       (begin
+         (display "---------------------- Done -------------------------\n")
+         (display listToReturn)
+         listToReturn
+         )
+         
+        
+                                )
+    )
+  
+  (define loop (lambda (x y ddf_y ddf_x f x0 y0 listToReturn)
+
+                     (displayCallValues x y ddf_y ddf_x f x0 y0 listToReturn)
     
     (if (>= x y)        
-      (begin
-       (display "Done --------------------------------------------------------\n")
-       (display listToReturn)
-       listToReturn
+      (displayDoneAndReturn listToReturn)
+      
+       ;(<--- FJERNET!
+       (if (>= f 0)           
+            (firstLet x y ddf_y ddf_x f x0 y0 listToReturn)
+            (secondLet x y ddf_y ddf_x f x0 y0 listToReturn)
+           )
+       ;)<----FJERNET!
         )
-      (
-       (if (>= f 0)
-           
-            (let* ((y (- y 1)) (ddf_y (+ ddf_y 2)) (f (+ f ddf_y)))
-              (let* ((x (+ x 1)) (ddf_x (+ ddf_x 2)) (f (+ f ddf_x)))
-                 (
-                  ;(display `(First: x: ,x y: ,y ddf_y: ,ddf_y ddf_x: ,ddf_x f: ,f x0: ,x0 y0: ,y0 listToReturn: ,listToReturn))
- 
-                  loop x y ddf_y ddf_x f x0 y0 (
-                                                 append listToReturn `(
-                                                                       (,(+ x0 x) ,(+ y0 y))
-                                                                       (,(- x0 x) ,(+ y0 y))
-                                                                       (,(+ x0 x) ,(- y0 y))
-                                                                       (,(- x0 x) ,(- y0 y))
-                                                                       (,(+ x0 y) ,(+ y0 x))
-                                                                       (,(- x0 y) ,(+ y0 x))
-                                                                       (,(+ x0 y) ,(- y0 x))
-                                                                       (,(- x0 y) ,(- y0 x))
-                                                                       )
-                                                  )
-                  
-                   )
-                )
-              )
-            
-           
-            (let* ((x (+ x 1)) (ddf_x (+ ddf_x 2)))
-                       
-                  (let* ((f (+ f ddf_x)))
-                    (
-                     ;(display `(Second: x: ,x y: ,y ddf_y: ,ddf_y ddf_x: ,ddf_x f: ,f x0: ,x0 y0: ,y0 listToReturn: ,listToReturn))
-                     loop x y ddf_y ddf_x f x0 y0 (
-                                                 append listToReturn `(
-                                                                       (,(+ x0 x) ,(+ y0 y))
-                                                                       (,(- x0 x) ,(+ y0 y))
-                                                                       (,(+ x0 x) ,(- y0 y))
-                                                                       (,(- x0 x) ,(- y0 y))
-                                                                       (,(+ x0 y) ,(+ y0 x))
-                                                                       (,(- x0 y) ,(+ y0 x))
-                                                                       (,(+ x0 y) ,(- y0 x))
-                                                                       (,(- x0 y) ,(- y0 x))
-                                                                       )
-                                                  )
                      )
-                    )
-                  
-                  
-                   
-             )
-                      
-           
-        )
-       
-     )
-   )
-  )
+    )
+  
+  
+  
+  ;(displayDoneAndReturn '(1 2))
+  (loop x y ddf_y ddf_x f x0 y0 initialList)
+    
 )
 (define line (lambda (x0 y0 x1 y1 l)
                (define dx (lambda () (abs (- x1 x0))))

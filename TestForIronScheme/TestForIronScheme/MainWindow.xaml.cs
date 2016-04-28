@@ -106,7 +106,7 @@ namespace TestForIronScheme
             myLine2.StrokeThickness = 1;
             myCanvas.Children.Add(myLine2);
 
-            Ellipse myEllipse = new Ellipse();
+            /*Ellipse myEllipse = new Ellipse();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
             mySolidColorBrush.Color = Colors.Red;
             myEllipse.Fill = mySolidColorBrush;
@@ -116,7 +116,18 @@ namespace TestForIronScheme
             myEllipse.Height = 5;
             Canvas.SetTop(myEllipse, centerY - y);
             Canvas.SetLeft(myEllipse, centerX + x);
-            myCanvas.Children.Add(myEllipse);
+            myCanvas.Children.Add(myEllipse);*/
+
+            Rectangle myRec=new Rectangle();
+            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+            mySolidColorBrush.Color = Colors.Red;
+            myRec.Fill = mySolidColorBrush;
+            myRec.StrokeThickness = 1;
+            myRec.Width = 1;
+            myRec.Height = 1;
+            Canvas.SetTop(myRec, centerY - y);
+            Canvas.SetLeft(myRec, centerX + x);
+            myCanvas.Children.Add(myRec);
         }
     }
 }
