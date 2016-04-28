@@ -46,17 +46,40 @@ namespace TestForIronScheme
         {
             if (/*(Keyboard.Modifiers == ModifierKeys.Control) && */(e.Key == Key.Enter))
             {
+                myCanvas.Children.Clear();
                 try
                 {
-                    
+                    //makeDot(0,0);
+                    //makeDot(10,50);
+                    //makeDot(10, -10);
+                    //makeDot(40, 20);
+                    //makeDot(-20, 20);
+                    //makeDot(20, 50);
+                    //makeDot(0, 50);
+                    //makeDot(20, -10);
+                    //makeDot(0, -10);
+                    //makeDot(40, 30);
+                    //makeDot(-20, 30);
+                    //makeDot(40, 10);
+                    //makeDot(-20, 10);
+                    //makeDot(30, 40);
+                    //makeDot(-10, 40);
+                    //makeDot(30, 0);
+                    //makeDot(-10, 0);
+
+                    //makeDot(30, 40);
+                    //makeDot(-10, 40);
+                    //makeDot(30, 0);
+                    //makeDot(-10, 0);
+
                     double x = 0;
                     double y = 0;
                     var val = schemeHandler.Evaluate(Input.Text);
                     DisplayArea.Text = val.ToString();
-                    foreach (var cord in (IEnumerable) val)
+                    foreach (var cord in (IEnumerable)val)
                     {
                         int count = 0;
-                        foreach (var numb in (IEnumerable) cord)
+                        foreach (var numb in (IEnumerable)cord)
                         {
                             if (count == 0)
                             {
@@ -71,7 +94,7 @@ namespace TestForIronScheme
                         }
                         makeDot(x, y);
                     }
-                   
+
                 }
                 catch(Exception ex)
                 {
@@ -88,20 +111,20 @@ namespace TestForIronScheme
 
             var myLine1 = new Line();
             myLine1.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-            myLine1.X1 = centerX - 30;
-            myLine1.X2 = centerX + 30;
-            myLine1.Y1 = centerY + 0;
-            myLine1.Y2 = centerY + 0;
+            myLine1.X1 = 0;
+            myLine1.X2 = myCanvas.ActualWidth;
+            myLine1.Y1 = myCanvas.ActualHeight / 2;
+            myLine1.Y2 = myCanvas.ActualHeight / 2;
 
             myLine1.StrokeThickness = 1;
             myCanvas.Children.Add(myLine1);
 
             var myLine2 = new Line();
             myLine2.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-            myLine2.X1 = centerX + 0;
-            myLine2.X2 = centerX + 0;
-            myLine2.Y1 = centerY - 30;
-            myLine2.Y2 = centerY + 30;
+            myLine2.X1 = myCanvas.ActualWidth/2;
+            myLine2.X2 = myCanvas.ActualWidth / 2;
+            myLine2.Y1 =0;
+            myLine2.Y2 = myCanvas.ActualHeight;
 
             myLine2.StrokeThickness = 1;
             myCanvas.Children.Add(myLine2);
@@ -114,8 +137,8 @@ namespace TestForIronScheme
             myEllipse.Stroke = Brushes.White;
             myEllipse.Width = 5;
             myEllipse.Height = 5;
-            Canvas.SetTop(myEllipse, centerY - y);
-            Canvas.SetLeft(myEllipse, centerX + x);
+            Canvas.SetTop(myEllipse, centerY - y-2.5);
+            Canvas.SetLeft(myEllipse, centerX + x-2.5);
             myCanvas.Children.Add(myEllipse);
         }
     }
