@@ -151,9 +151,6 @@ namespace TestForIronScheme
             Canvas.SetTop(myRec, centerY - y);
             Canvas.SetLeft(myRec, centerX + x);
             myCanvas.Children.Add(myRec);
-            /*Canvas.SetTop(myEllipse, centerY - y-2.5);
-            Canvas.SetLeft(myEllipse, centerX + x-2.5);
-            myCanvas.Children.Add(myEllipse);*/
         }
     }
 }

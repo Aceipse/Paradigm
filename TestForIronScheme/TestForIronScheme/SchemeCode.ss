@@ -25,7 +25,6 @@
 
   
   (define initialList (list `( ,x0 ,(+ y0 r) ) `(,x0 ,(- y0 r) ) `(,(+ x0 r) ,y0) `(,(- x0 r) ,y0)))
-
   
   (define displayCallValues (lambda  (x y ddf_y ddf_x f x0 y0 listToReturn)
     (begin
@@ -66,11 +65,11 @@
   
   (define loop (lambda (x y ddf_y ddf_x f x0 y0 listToReturn)
 
-                     (displayCallValues x y ddf_y ddf_x f x0 y0 listToReturn)
+                     ;(displayCallValues x y ddf_y ddf_x f x0 y0 listToReturn)
     
     (if (>= x y)        
-      (displayDoneAndReturn listToReturn)
-      
+      ;(displayDoneAndReturn listToReturn)
+      listToReturn
        ;(<--- FJERNET!
        (if (>= f 0)           
             (firstLet x y ddf_y ddf_x f x0 y0 listToReturn)
