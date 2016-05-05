@@ -225,3 +225,7 @@
            (else "Cannot fill that figure")))
     (else "Invalid function call"))
 )
+
+(define (DRAW color toDraw)
+  (cons color (map (lambda (x) (EvalFunc x)) toDraw))
+)

@@ -74,7 +74,7 @@ namespace TestForIronScheme
 
                     double x = 0;
                     double y = 0;
-                    var val = schemeHandler.Evaluate(Input.Text);
+                    var val = schemeHandler.Evaluate("(EvalFunc '" + Input.Text + ")");
                     DisplayArea.Text = val.ToString();
                     foreach (var cord in (IEnumerable)val)
                     {
