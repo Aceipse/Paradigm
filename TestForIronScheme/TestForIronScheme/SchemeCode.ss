@@ -1,5 +1,36 @@
-(
- define (drawCircle x0 y0 r)
+(define (BOUNDING-BOX name x1 y1 x2 y2)
+ (let* (
+        (Min (cons x1 y1))
+        (Max (cons x2 y2))
+        (get-max (lambda () Max))
+        (get-min (lambda () Min))
+        )
+        (list name (cons 'Min get-min) (cons 'Max get-max))))
+
+(define (get-from-box r name)
+(cdr (assq name (cdr r))))
+
+(define (IsHeigher value)
+  (if(>= (car value) (car((get-from-box box 'Min))))
+    (if(>= (cdr value) (cdr ((get-from-box box 'Min))))
+    #t)
+    #f)
+)
+
+
+(define (IsLower value)
+  (if(<= (car value) (car((get-from-box box 'Max))))
+    (if(<= (cdr value) (cdr ((get-from-box box 'Max))))
+    #t) #f)
+)
+
+(define (Limiter l)
+  (filter IsHeigher (filter IsLower l))
+)
+
+  (define box (BOUNDING-BOX 'box 1 1 5 5))
+
+(define (drawCircle x0 y0 r)
    (define f (- 1 r))
    (define ddf_x 1)
    (define ddf_y (* -2 r))
