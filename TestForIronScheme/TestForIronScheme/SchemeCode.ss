@@ -186,7 +186,41 @@
                )
   )
 
-  (
+ (
+ define (fill-rectangle color x0 y0 x1 y1)
+  
+    (let loopx ((x0x x0)
+               (y0x y0)
+               (x1x x1)
+               (y1x y1)
+               (listToReturn '())                
+                )
+      (if (> x0x x1x)
+          ;Return the list with the color
+          (cons color listToReturn)
+ (let loopy ((x0y x0x)
+               (y0y y0x)
+               (x1y x1x)
+               (y1y y1x)
+               (listToReturn listToReturn)                
+                )
+   (if (> y0y y1y)
+       (loopx (+ x0x 1) y0x x1x y1x listToReturn)
+       
+        ;Add point and call y loop again
+        
+        (loopy x0y (+ y0y 1) x1y y1y (append listToReturn (list `(,x0y ,y0y))))
+
+      
+      )
+          )
+      
+      )
+  
+  )
+)
+
+(
  define(EvalFunc x)
  
   ;;TODO: insert check that boundingbox has been called
@@ -212,7 +246,12 @@
     ((equal? (car x) 'TEXT-AT) "Text-at was called")
     ((equal? (car x) 'BOUNDING-BOX) 
      
-     "Boundingbox was called"
+     (BOUNDING-BOX 
+       "box"
+       (caadr x)
+       (cadadr x)
+       (caaddr x)
+       (car(cdaddr x)))
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
@@ -220,8 +259,18 @@
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
-     (cond ((equal? (caaddr x) 'RECTANGLE) "Fill rectangle called")
-           ((equal? (caaddr x) 'CIRCLE)"Fill circle called")
+     (cond ((equal? (caaddr x) 'RECTANGLE) 
+            (fill-rectangle 
+              (cadr x) 
+              (caadr(caddr x))
+              (cadadr(caddr x))
+              (caaddr(caddr x))
+              (cadr(caddr(caddr x))))
+            )
+           ((equal? (caaddr x) 'CIRCLE)
+            ;This function could make a call to fill circle 
+            ;and remove all points not in distance of the midpoint
+            "Fill circle called")
            (else "Cannot fill that figure")))
     (else "Invalid function call"))
 )
