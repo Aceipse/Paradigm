@@ -37,16 +37,16 @@ namespace TestForIronScheme
             schemeHandler = new SchemeHandler();
             var path = Directory.GetCurrentDirectory();
             path = path.Remove(path.Length - 9);
-            string text = System.IO.File.ReadAllText(path +@"SchemeCode.ss");
+            string text = System.IO.File.ReadAllText(path + @"SchemeCode.ss");
             schemeHandler.Evaluate(text);
-            
+
         }
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
         {
-            if (/*(Keyboard.Modifiers == ModifierKeys.Control) && */(e.Key == Key.Enter))
+            if (/*(Keyboard.Modifiers == ModifierKeys.Control) && */(e.Key == Key.Enter) || (e.Key == Key.RightShift))
             {
-                myCanvas.Children.Clear();
+
                 try
                 {
                     //makeDot(0,0);
@@ -66,7 +66,7 @@ namespace TestForIronScheme
                     //makeDot(-10, 40);
                     //makeDot(30, 0);
                     //makeDot(-10, 0);
-                    
+
                     //makeDot(30, 40);
                     //makeDot(-10, 40);
                     //makeDot(30, 0);
@@ -94,13 +94,24 @@ namespace TestForIronScheme
                         }
                         makeDot(x, y);
                     }
-                   
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
-                    DisplayArea.Text = json;
+                    try
+                    {
+                        var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                        DisplayArea.Text = json;
+                    }
+                    catch (Exception)
+                    {
+                        DisplayArea.Text = ex.Message;
+                    }
                 }
+            }
+            else if ((e.Key == Key.C))
+            {
+                myCanvas.Children.Clear();
             }
         }
 
@@ -121,9 +132,9 @@ namespace TestForIronScheme
 
             var myLine2 = new Line();
             myLine2.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-            myLine2.X1 = myCanvas.ActualWidth/2;
+            myLine2.X1 = myCanvas.ActualWidth / 2;
             myLine2.X2 = myCanvas.ActualWidth / 2;
-            myLine2.Y1 =0;
+            myLine2.Y1 = 0;
             myLine2.Y2 = myCanvas.ActualHeight;
 
             myLine2.StrokeThickness = 1;
@@ -141,7 +152,7 @@ namespace TestForIronScheme
             Canvas.SetLeft(myEllipse, centerX + x);
             myCanvas.Children.Add(myEllipse);*/
 
-            Rectangle myRec=new Rectangle();
+            Rectangle myRec = new Rectangle();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
             mySolidColorBrush.Color = Colors.Red;
             myRec.Fill = mySolidColorBrush;
