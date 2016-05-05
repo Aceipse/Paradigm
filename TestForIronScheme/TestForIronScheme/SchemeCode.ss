@@ -185,3 +185,43 @@
                    )
                )
   )
+
+  (
+ define(EvalFunc x)
+ 
+  ;;TODO: insert check that boundingbox has been called
+  
+  (cond ((equal? (car x) 'LINE)
+         (line
+           (caadr x)
+           (cadadr x)
+           (caaddr x)
+           (car(cdaddr x))
+            '())
+         
+         )
+    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
+    ((equal? (car x) 'CIRCLE)
+     
+     (drawCircle
+       (caadr x)
+       (cadadr x)
+       (caddr x)))
+    
+    
+    ((equal? (car x) 'TEXT-AT) "Text-at was called")
+    ((equal? (car x) 'BOUNDING-BOX) 
+     
+     "Boundingbox was called"
+     
+     )
+    ((equal? (car x) 'DRAW) "Draw was called")
+    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
+    ((equal? (car x) 'FILL)
+    ;Check which fill function it was, only circle and rectangle allowed
+     
+     (cond ((equal? (caaddr x) 'RECTANGLE) "Fill rectangle called")
+           ((equal? (caaddr x) 'CIRCLE)"Fill circle called")
+           (else "Cannot fill that figure")))
+    (else "Invalid function call"))
+)
