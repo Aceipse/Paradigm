@@ -186,7 +186,7 @@
                )
   )
 
- (
+(
  define (fill-rectangle color x0 y0 x1 y1)
   
     (let loopx ((x0x x0)
@@ -219,6 +219,35 @@
   
   )
 )
+
+(define (fill-circle color x y r)
+  
+  ;make a retangle around the circle
+  
+  (define x0 (- x r))
+  (define y0 (- y r))
+  (define x1 (+ x r))
+  (define y1 (+ y r))
+  
+  (define myRec (fill-rectangle color x0 y0 x1 y1))
+  
+ 
+   (define (withinCircle coordinate)
+     (display coordinate)
+
+    (if(< (sqrt (+(expt (- (car coordinate) x) 2)(expt (- (cadr coordinate) y) 2))) r)
+      #t
+	  #f
+      )
+    
+    )
+  
+  (display myRec)
+  
+  (filter withinCircle (cdr myRec))
+  
+  
+ )
 
 (
  define(EvalFunc x)
