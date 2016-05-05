@@ -119,7 +119,7 @@
 )
 
 (define line
-  (lambda (x0 y0 x1 y1 l)
+  (lambda (x0 y0 x1 y1)
     (define dx (- x1 x0))
     (define dy (- y1 y0))
     
@@ -131,7 +131,7 @@
       (lambda (x y)
         (list (- y) x)))
     
-    (define do-nothing
+    (define no-rotate
       (lambda (x y)
         (list x y)))
     
@@ -142,38 +142,31 @@
     
     (define atan-deg
       (lambda (x y)
-        (rad2deg (atan x y))))
+        (if (and (= x 0) (= y 0))
+            0
+            (rad2deg (atan x y)))))
     
     (define octo
       (lambda (x y)
         (let ((deg (atan-deg x y)))
           (if (and (< deg 45) (> deg -45))
               ;We're in Q1 or Q2 rotate clockwise 90 deg
-              (begin
-                (line-aux (car (clockwise x0 y0)) (cadr (clockwise x0 y0))
-                          (car (clockwise x1 y1)) (cadr (clockwise x1 y1))
-                          l counter-clockwise)
-                )
+              (line-aux (car (clockwise x0 y0)) (cadr (clockwise x0 y0))
+                        (car (clockwise x1 y1)) (cadr (clockwise x1 y1))
+                        '() counter-clockwise)
               (if (and (>= deg 45) (<= deg 135))
                   ;We're in Q0 or Q7 do nothing
-                  (begin
-                    (line-aux x0 y0 x1 y1 l do-nothing)
-                    )
+                  (line-aux x0 y0 x1 y1 '() no-rotate)
                   (if (or (> deg 135) (<= deg -135))
                       ;We're in Q6 or Q5 rotate counter-clockwise
-                      (begin
-                        (line-aux (car (counter-clockwise x0 y0)) (cadr (counter-clockwise x0 y0))
-                                  (car (counter-clockwise x1 y1)) (cadr (counter-clockwise x1 y1))
-                                  l clockwise)
-                        )
+                      (line-aux (car (counter-clockwise x0 y0)) (cadr (counter-clockwise x0 y0))
+                                (car (counter-clockwise x1 y1)) (cadr (counter-clockwise x1 y1))
+                                '() clockwise)
                       ;We're in Q4 or Q3 do nothing
-                      (begin
-                        (line-aux x0 y0 x1 y1 l do-nothing)
-                        )
+                      (line-aux x0 y0 x1 y1 '() no-rotate)
                       ))))))
     
     (octo dx dy)
-    
     ))
 
 (define line-aux
@@ -197,11 +190,10 @@
             (begin
               (display "done")
               l
-              )
-            (begin              
+              )    
               (if (< (newerr err) 0)
                   (loop-x (+ x (sx)) (+ y (sy)) (+ (newerr err) (dx)) (add-point l x y))
-                  (loop-x (+ x (sx)) y (newerr err) (add-point l x y)))))))
+                  (loop-x (+ x (sx)) y (newerr err) (add-point l x y))))))
     
     (define loop-y
       (lambda (x y err l)
@@ -210,14 +202,13 @@
               (display "done")
               l
               )
-            (begin
               (if (< (newerr err) 0)
                   (loop-y (+ x (sx)) (+ y (sy)) (newerr err) (add-point l x y))
-                  (loop-y x (+ y (sy)) (+ (newerr err) (dy)) (add-point l x y)))))))
+                  (loop-y x (+ y (sy)) (+ (newerr err) (dy)) (add-point l x y))))))
     
     (if (> (dx) (dy))
-        (loop-x x0 y0 (/ (dx) 2.0) l)
-        (loop-y x0 y0 (/ (dy) 2.0) l)))
+        (loop-x x0 y0 (/ (dx) 2) l)
+        (loop-y x0 y0 (/ (dy) 2) l)))
   )
 
 (
