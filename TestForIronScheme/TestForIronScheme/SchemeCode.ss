@@ -187,29 +187,27 @@
     (define loop-x
       (lambda (x y err l)
         (if (= x x1)
-            (begin
-              (display "done")
-              l
-              )    
-              (if (< (newerr err) 0)
-                  (loop-x (+ x (sx)) (+ y (sy)) (+ (newerr err) (dx)) (add-point l x y))
-                  (loop-x (+ x (sx)) y (newerr err) (add-point l x y))))))
+            l 
+            (if (< (newerr err) 0)
+                (loop-x (+ x (sx)) (+ y (sy)) (+ (newerr err) (dx)) (add-point l x y))
+                (loop-x (+ x (sx)) y (newerr err) (add-point l x y))))))
     
     (define loop-y
       (lambda (x y err l)
         (if (= y y1)
-            (begin
-              (display "done")
-              l
-              )
-              (if (< (newerr err) 0)
-                  (loop-y (+ x (sx)) (+ y (sy)) (newerr err) (add-point l x y))
-                  (loop-y x (+ y (sy)) (+ (newerr err) (dy)) (add-point l x y))))))
+            l
+            (if (< (newerr err) 0)
+                (loop-y (+ x (sx)) (+ y (sy)) (newerr err) (add-point l x y))
+                (loop-y x (+ y (sy)) (+ (newerr err) (dy)) (add-point l x y))))))
     
     (if (> (dx) (dy))
         (loop-x x0 y0 (/ (dx) 2) l)
         (loop-y x0 y0 (/ (dy) 2) l)))
   )
+
+(define rectangle
+  (lambda (x0 y0 x1 y1)
+    (append (append (append (append '() (line x0 y0 x0 y1)) (line x0 y0 x1 y0)) (line x0 y1 x1 y1)) (line x1 y0 x1 y1))))
 
 (
  define (fill-rectangle color x0 y0 x1 y1)
