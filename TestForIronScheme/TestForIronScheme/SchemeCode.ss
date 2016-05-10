@@ -12,20 +12,19 @@
 
 (define (IsHeigher value)
   (if(>= (car value) (car((get-from-box box 'Min))))
-    (if(>= (cdr value) (cdr ((get-from-box box 'Min))))
+    (if(>= (cadr value) (cdr ((get-from-box box 'Min))))
     #t)
     #f)
 )
 
-
 (define (IsLower value)
   (if(<= (car value) (car((get-from-box box 'Max))))
-    (if(<= (cdr value) (cdr ((get-from-box box 'Max))))
+    (if(<= (cadr value) (cdr ((get-from-box box 'Max))))
     #t) #f)
 )
 
 (define (Limiter l)
-  (filter IsHeigher (filter IsLower l))
+ (filter IsHeigher (filter IsLower l))
 )
 
   (define box (BOUNDING-BOX 'box 1 1 5 5))
@@ -237,10 +236,10 @@
     ((equal? (car x) 'RECTANGLE) "Rectangle was called")
     ((equal? (car x) 'CIRCLE)
      
-     (drawCircle
+     (Limiter (drawCircle
        (caadr x)
        (cadadr x)
-       (caddr x)))
+       (caddr x))))
     
     
     ((equal? (car x) 'TEXT-AT) "Text-at was called")
