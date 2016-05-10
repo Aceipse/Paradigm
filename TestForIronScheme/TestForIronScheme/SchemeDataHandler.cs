@@ -37,7 +37,7 @@ namespace TestForIronScheme
 
         public override void Handle(Cons data)
         {
-            w.DisplayArea.Text = data.car.ToString();
+            w.Log(data.car.ToString());
         }
     }
 

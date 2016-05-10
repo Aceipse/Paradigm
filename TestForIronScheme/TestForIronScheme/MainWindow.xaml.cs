@@ -62,7 +62,7 @@ namespace TestForIronScheme
                 try
                 {
                     var val = schemeHandler.Evaluate("(EvalFunc '" + Input.Text + ")");
-                    DisplayArea.Text = val.ToString();
+                    Log(val.ToString());
 
                     Cons valueList = (Cons)val;
                     string datatype = ((Cons)valueList.car).car.ToString();
@@ -91,11 +91,11 @@ namespace TestForIronScheme
                     try
                     {
                         var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
-                        DisplayArea.Text = json;
+                        Log(json);
                     }
                     catch (Exception)
                     {
-                        DisplayArea.Text = ex.Message;
+                        Log(ex.Message);
                     }
                 }
             }
@@ -109,6 +109,14 @@ namespace TestForIronScheme
         {
             myCanvas.Children.Clear();
             drawGrid();
+        }
+
+        public void Log(string txt)
+        {
+            DisplayArea.Text = DisplayArea.Text.Insert(0, "\n");
+            DisplayArea.Text = DisplayArea.Text.Insert(0, txt);
+            DisplayArea.Text = DisplayArea.Text.Insert(0, "\n");
+            DisplayArea.Text = DisplayArea.Text.Insert(0, "------------NEW ENTRY " + DateTime.Now.ToLongTimeString());
         }
     }
 }
