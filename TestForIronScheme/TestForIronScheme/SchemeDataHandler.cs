@@ -28,7 +28,7 @@ namespace TestForIronScheme
 
         public override void Handle(Cons data)
         {
-            throw new NotImplementedException();
+            w.DisplayArea.Text = data.car.ToString();
         }
     }
 
@@ -86,26 +86,6 @@ namespace TestForIronScheme
         {
             var centerX = w.myCanvas.ActualWidth / 2;
             var centerY = w.myCanvas.ActualHeight / 2;
-
-            var myLine1 = new Line();
-            myLine1.Stroke = Brushes.LightSteelBlue;
-            myLine1.X1 = 0;
-            myLine1.X2 = w.myCanvas.ActualWidth;
-            myLine1.Y1 = w.myCanvas.ActualHeight / 2;
-            myLine1.Y2 = w.myCanvas.ActualHeight / 2;
-
-            myLine1.StrokeThickness = 1;
-            w.myCanvas.Children.Add(myLine1);
-
-            var myLine2 = new Line();
-            myLine2.Stroke = Brushes.LightSteelBlue;
-            myLine2.X1 = w.myCanvas.ActualWidth / 2;
-            myLine2.X2 = w.myCanvas.ActualWidth / 2;
-            myLine2.Y1 = 0;
-            myLine2.Y2 = w.myCanvas.ActualHeight;
-
-            myLine2.StrokeThickness = 1;
-            w.myCanvas.Children.Add(myLine2);
 
             /*Ellipse myEllipse = new Ellipse();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();

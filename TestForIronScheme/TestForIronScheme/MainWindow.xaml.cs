@@ -8,6 +8,8 @@ namespace TestForIronScheme
     using IronScheme; // the extension methods are exported from this namespace
     using IronScheme.Runtime;
     using Newtonsoft.Json;
+    using System.Windows.Media;
+    using System.Windows.Shapes;
     public class SchemeHandler
     {
         public object Evaluate(string input)
@@ -21,12 +23,36 @@ namespace TestForIronScheme
         public Window1()
         {
             InitializeComponent();
+            drawGrid();
             schemeHandler = new SchemeHandler();
             var path = Directory.GetCurrentDirectory();
             path = path.Remove(path.Length - 9);
             string text = System.IO.File.ReadAllText(path + @"SchemeCode.ss");
             schemeHandler.Evaluate(text);
 
+        }
+
+        private void drawGrid()
+        {
+            var myLine1 = new Line();
+            myLine1.Stroke = Brushes.LightSteelBlue;
+            myLine1.X1 = 0;
+            myLine1.X2 = myCanvas.ActualWidth;
+            myLine1.Y1 = myCanvas.ActualHeight / 2;
+            myLine1.Y2 = myCanvas.ActualHeight / 2;
+
+            myLine1.StrokeThickness = 1;
+            myCanvas.Children.Add(myLine1);
+
+            var myLine2 = new Line();
+            myLine2.Stroke = Brushes.LightSteelBlue;
+            myLine2.X1 = myCanvas.ActualWidth / 2;
+            myLine2.X2 = myCanvas.ActualWidth / 2;
+            myLine2.Y1 = 0;
+            myLine2.Y2 = myCanvas.ActualHeight;
+
+            myLine2.StrokeThickness = 1;
+            myCanvas.Children.Add(myLine2);
         }
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
@@ -77,6 +103,12 @@ namespace TestForIronScheme
             {
                 myCanvas.Children.Clear();
             }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            myCanvas.Children.Clear();
+            drawGrid();
         }
     }
 }
