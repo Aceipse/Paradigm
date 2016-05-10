@@ -295,7 +295,7 @@
        (caddr x)))
     
     
-    ((equal? (car x) 'TEXT-AT) "Text-at was called")
+    ((equal? (car x) 'TEXT-AT) `(("TEXT")(,(caddr x))(,(caadr x),(cadadr x))))
     ((equal? (car x) 'BOUNDING-BOX) 
      
      (BOUNDING-BOX 
@@ -323,6 +323,6 @@
             ;This function could make a call to fill circle 
             ;and remove all points not in distance of the midpoint
             "Fill circle called")
-           (else "Cannot fill that figure")))
-    (else "Invalid function call"))
+           (else '(("ERROR")("Cannot fill that figure")))))
+    (else'(("ERROR")("Invalid function call"))))
 )
