@@ -54,7 +54,7 @@ namespace TestForIronScheme
                             schemeWorker = new FigureHandler(this);
                             break;
                         default:
-                            throw new Exception("datatype received from scheme is not supported");
+                            throw new Exception("datatype '" + datatype + "' received from scheme is not supported");
                     }
 
                     Cons dataList = (Cons)valueList.cdr;
