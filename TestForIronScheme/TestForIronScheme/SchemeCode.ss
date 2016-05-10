@@ -272,7 +272,7 @@
   
  )
 
-(
+ (
  define(EvalFunc x)
  
   ;;TODO: insert check that boundingbox has been called
@@ -324,5 +324,5 @@
             ;and remove all points not in distance of the midpoint
             "Fill circle called")
            (else '(("ERROR")("Cannot fill that figure")))))
-    (else'(("ERROR")("Invalid function call"))))
+    (else '(("ERROR")("Invalid function call"))))
 )
