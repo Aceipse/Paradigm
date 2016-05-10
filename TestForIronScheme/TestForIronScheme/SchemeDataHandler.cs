@@ -1,6 +1,8 @@
 ﻿using IronScheme.Runtime;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,6 +19,13 @@ namespace TestForIronScheme
         public SchemeDataHandler(Window1 window)
         {
             w = window;
+        }
+
+        protected Coordinate offsetPoint(double x, double y)
+        {
+            var centerX = w.myCanvas.ActualWidth / 2;
+            var centerY = w.myCanvas.ActualHeight / 2;
+            return new Coordinate(centerX + x, centerY - y);
         }
 
         public abstract void Handle(Cons data);
@@ -38,7 +47,20 @@ namespace TestForIronScheme
 
         public override void Handle(Cons data)
         {
-            throw new NotImplementedException();
+            List<object> list = data.ToList();
+            List<object> coor = ((Cons)list[1]).ToList();
+
+            double x = Double.Parse(coor[0].ToString());
+            double y = Double.Parse(coor[1].ToString());
+
+            Coordinate offsetpoint = offsetPoint(x, y);
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = ((Cons)list[0]).car.ToString();
+            textBlock.Foreground = new SolidColorBrush(Colors.Black);
+            Canvas.SetLeft(textBlock, offsetpoint.x);
+            Canvas.SetTop(textBlock, offsetpoint.y);
+            w.myCanvas.Children.Add(textBlock);
         }
     }
 
@@ -84,9 +106,6 @@ namespace TestForIronScheme
 
         private void makeDot(double x, double y, Color color)
         {
-            var centerX = w.myCanvas.ActualWidth / 2;
-            var centerY = w.myCanvas.ActualHeight / 2;
-
             /*Ellipse myEllipse = new Ellipse();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
             mySolidColorBrush.Color = Colors.Red;
@@ -99,6 +118,8 @@ namespace TestForIronScheme
             Canvas.SetLeft(myEllipse, centerX + x);
             myCanvas.Children.Add(myEllipse);*/
 
+            var offsetpoint = offsetPoint(x, y);
+
             Rectangle myRec = new Rectangle();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
             mySolidColorBrush.Color = color;
@@ -106,8 +127,8 @@ namespace TestForIronScheme
             myRec.StrokeThickness = 1;
             myRec.Width = 1;
             myRec.Height = 1;
-            Canvas.SetTop(myRec, centerY - y);
-            Canvas.SetLeft(myRec, centerX + x);
+            Canvas.SetLeft(myRec, offsetpoint.x);
+            Canvas.SetTop(myRec, offsetpoint.y);
             w.myCanvas.Children.Add(myRec);
         }
     }

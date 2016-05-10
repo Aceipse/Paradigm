@@ -61,11 +61,11 @@ namespace TestForIronScheme
             {
                 try
                 {
-                    Object val = schemeHandler.Evaluate(Input.Text);
+                    var val = schemeHandler.Evaluate("(EvalFunc '" + Input.Text + ")");
                     DisplayArea.Text = val.ToString();
 
                     Cons valueList = (Cons)val;
-                    string datatype = valueList.car.ToString();
+                    string datatype = ((Cons)valueList.car).car.ToString();
 
                     SchemeDataHandler schemeWorker;
                     switch (datatype)
