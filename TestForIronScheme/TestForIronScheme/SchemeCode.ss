@@ -1,3 +1,5 @@
+(define box #f)
+
 (define (BOUNDING-BOX name x1 y1 x2 y2)
  (let* (
         (Min (cons x1 y1))
@@ -11,23 +13,23 @@
 (cdr (assq name (cdr r))))
 
 (define (IsHeigher value)
-  (if(>= (car value) (car((get-from-box box 'Min))))
-    (if(>= (cadr value) (cdr ((get-from-box box 'Min))))
-    #t)
-    #f)
+  (if (>= (car value) (car((get-from-box box 'Min))))   
+   (if(>= (cadr value) (cdr ((get-from-box box 'Min))))
+    #t #f)
+   #f)
 )
 
 (define (IsLower value)
   (if(<= (car value) (car((get-from-box box 'Max))))
     (if(<= (cadr value) (cdr ((get-from-box box 'Max))))
-    #t) #f)
+    #t #f) 
+   #f)
 )
 
 (define (Limiter l)
  (filter IsHeigher (filter IsLower l))
 )
 
-  (define box (BOUNDING-BOX 'box 1 1 5 5))
 
 (define (drawCircle x0 y0 r)
    (define f (- 1 r))
@@ -274,9 +276,8 @@
 
 (
  define(EvalFunc x)
- 
-  ;;TODO: insert check that boundingbox has been called
-  
+ (if(equal? box #f)
+    "ERROR Bounding box have not been made"
   (cond ((equal? (car x) 'LINE)
   `(("FIGURE") ("Black")
          ,(line
@@ -290,7 +291,7 @@
         ((equal? (car x) 'RECTANGLE)
 		(begin
 		"RECTANGLE CALLED"
-		(list (list "FIGURE") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
+		(list (list "FIGURE") (list "BLACK") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
 
     ((equal? (car x) 'CIRCLE)
      
@@ -313,7 +314,6 @@
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
-    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
@@ -337,4 +337,9 @@
               (caddr(caddr x)))))
            (else '(("ERROR")("Cannot fill that figure")))))
     (else '(("ERROR")("Invalid function call"))))
+))
+          
+
+(define (DRAW color toDraw)
+  (cons color (map (lambda (x) (EvalFunc x)) toDraw))
 )
