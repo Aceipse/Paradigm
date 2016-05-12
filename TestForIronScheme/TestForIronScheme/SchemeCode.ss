@@ -289,7 +289,7 @@
         ((equal? (car x) 'RECTANGLE)
 		(begin
 		"RECTANGLE CALLED"
-		(list (list "FIGURE") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
+		(list (list "FIGURE") (list "BLACK") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
 
     ((equal? (car x) 'CIRCLE)
      
@@ -312,7 +312,6 @@
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
-    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
