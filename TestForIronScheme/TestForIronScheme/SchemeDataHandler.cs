@@ -37,7 +37,7 @@ namespace TestForIronScheme
 
         public override void Handle(Cons data)
         {
-            w.Log(data.car.ToString());
+            w.Log(((Cons)data.car).car.ToString());
         }
     }
 
