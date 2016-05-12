@@ -219,7 +219,8 @@
                 )
       (if (> x0x x1x)
           ;Return the list with the color
-          (cons color listToReturn)
+          ;not adding the color here anymore (cons color listToReturn)
+		  listToReturn
  (let loopy ((x0y x0x)
                (y0y y0x)
                (x1y x1x)
@@ -277,12 +278,12 @@
   ;;TODO: insert check that boundingbox has been called
   
   (cond ((equal? (car x) 'LINE)
-         (line
+  `(("FIGURE") ("Black")
+         ,(line
            (caadr x)
            (cadadr x)
            (caaddr x)
-           (car(cdaddr x))
-            '())
+           (car(cdaddr x))))
          
          )
 
