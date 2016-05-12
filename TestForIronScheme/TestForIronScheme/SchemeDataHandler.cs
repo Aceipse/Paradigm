@@ -73,7 +73,9 @@ namespace TestForIronScheme
             double x = 0;
             double y = 0;
 
-            string colorStr = (string)data.car;
+
+
+            string colorStr = (string)((Cons)data.car).car;
             Color color;
 
             try
@@ -85,7 +87,7 @@ namespace TestForIronScheme
                 throw new Exception("Color-string '" + colorStr + "' could not be converted to a known color. See inner exception", e);
             }
 
-            foreach (var cord in (IEnumerable)data.cdr)
+            foreach (var cord in (IEnumerable)((Cons)data.cdr).car)
             {
                 int count = 0;
                 foreach (var numb in (IEnumerable)cord)

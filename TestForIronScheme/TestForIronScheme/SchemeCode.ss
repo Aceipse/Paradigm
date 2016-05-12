@@ -271,7 +271,7 @@
   
  )
 
- (
+(
  define(EvalFunc x)
  
   ;;TODO: insert check that boundingbox has been called
@@ -288,7 +288,8 @@
     ((equal? (car x) 'RECTANGLE) "Rectangle was called")
     ((equal? (car x) 'CIRCLE)
      
-     (Limiter (drawCircle
+     `(("FIGURE") ("Black")
+     ,(drawCircle
        (caadr x)
        (cadadr x)
        (caddr x))))
@@ -310,23 +311,24 @@
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
-     (cond ((equal? (caaddr x) 'RECTANGLE) 
-            (fill-rectangle 
-              (cadr x) 
+     (cond ((equal? (caaddr x) 'RECTANGLE)
+            `(("FIGURE")(,(cadr x))
+            ,(fill-rectangle 
+              (cadr x)  
               (caadr(caddr x))
               (cadadr(caddr x))
               (caaddr(caddr x))
-              (cadr(caddr(caddr x))))
+              (cadr(caddr(caddr x)))))
             )
            ((equal? (caaddr x) 'CIRCLE)
             ;This function could make a call to fill circle 
             ;and remove all points not in distance of the midpoint
-            "Fill circle called")
+             `(("FIGURE")(,(cadr x))
+            ,(fill-circle
+              (cadr x)  
+              (caadr(caddr x))
+              (cadadr(caddr x))
+              (caddr(caddr x)))))
            (else '(("ERROR")("Cannot fill that figure")))))
     (else '(("ERROR")("Invalid function call"))))
-)
-          
-
-(define (DRAW color toDraw)
-  (cons color (map (lambda (x) (EvalFunc x)) toDraw))
 )
