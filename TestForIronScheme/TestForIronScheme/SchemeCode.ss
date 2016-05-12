@@ -273,7 +273,7 @@
   
  )
 
- (
+(
  define(EvalFunc x)
  (if(equal? box #f)
     "ERROR Bounding box have not been made"
@@ -286,10 +286,16 @@
             '())
          
          )
-    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
+
+        ((equal? (car x) 'RECTANGLE)
+		(begin
+		"RECTANGLE CALLED"
+		(list (list "FIGURE") (list "BLACK") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
+
     ((equal? (car x) 'CIRCLE)
      
-     (Limiter (drawCircle
+     `(("FIGURE") ("Black")
+     ,(drawCircle
        (caadr x)
        (cadadr x)
        (caddr x))))
@@ -307,22 +313,27 @@
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
-    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
-     (cond ((equal? (caaddr x) 'RECTANGLE) 
-            (fill-rectangle 
-              (cadr x) 
+     (cond ((equal? (caaddr x) 'RECTANGLE)
+            `(("FIGURE")(,(cadr x))
+            ,(fill-rectangle 
+              (cadr x)  
               (caadr(caddr x))
               (cadadr(caddr x))
               (caaddr(caddr x))
-              (cadr(caddr(caddr x))))
+              (cadr(caddr(caddr x)))))
             )
            ((equal? (caaddr x) 'CIRCLE)
             ;This function could make a call to fill circle 
             ;and remove all points not in distance of the midpoint
-            "Fill circle called")
+             `(("FIGURE")(,(cadr x))
+            ,(fill-circle
+              (cadr x)  
+              (caadr(caddr x))
+              (cadadr(caddr x))
+              (caddr(caddr x)))))
            (else '(("ERROR")("Cannot fill that figure")))))
     (else '(("ERROR")("Invalid function call"))))
 ))
