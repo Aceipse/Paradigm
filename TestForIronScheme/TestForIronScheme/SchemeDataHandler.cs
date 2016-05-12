@@ -9,9 +9,9 @@ using System.Windows.Shapes;
 
 namespace TestForIronScheme
 {
-    //ERROR,errorString
-    //TEXT,textString,x,y
-    //FIGURE,colorString,x1,y1,x2,y2 ...
+    //((ERROR),(errorString))
+    //((TEXT),(textString),(x,y))
+    //((FIGURE),(colorString),((x1,y1),(x2,y2))) ...
 
     public abstract class SchemeDataHandler
     {

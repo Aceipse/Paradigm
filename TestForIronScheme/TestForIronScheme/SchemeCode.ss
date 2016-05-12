@@ -285,7 +285,12 @@
             '())
          
          )
-    ((equal? (car x) 'RECTANGLE) "Rectangle was called")
+
+        ((equal? (car x) 'RECTANGLE)
+		(begin
+		"RECTANGLE CALLED"
+		(list (list "FIGURE") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
+
     ((equal? (car x) 'CIRCLE)
      
      (Limiter (drawCircle
