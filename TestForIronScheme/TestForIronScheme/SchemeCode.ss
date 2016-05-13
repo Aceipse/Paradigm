@@ -1,27 +1,16 @@
-(define box #f)
-
-(define (BOUNDING-BOX name x1 y1 x2 y2)
- (let* (
-        (Min (cons x1 y1))
-        (Max (cons x2 y2))
-        (get-max (lambda () Max))
-        (get-min (lambda () Min))
-        )
-        (list name (cons 'Min get-min) (cons 'Max get-max))))
-
-(define (get-from-box r name)
-(cdr (assq name (cdr r))))
+(define Min (cons 0 0))
+(define Max (cons 0 0))
 
 (define (IsHeigher value)
-  (if (>= (car value) (car((get-from-box box 'Min))))   
-   (if(>= (cadr value) (cdr ((get-from-box box 'Min))))
+  (if (>= (car value) (car Min))   
+   (if(>= (cadr value) (cdr Min))
     #t #f)
    #f)
 )
 
 (define (IsLower value)
-  (if(<= (car value) (car((get-from-box box 'Max))))
-    (if(<= (cadr value) (cdr ((get-from-box box 'Max))))
+  (if(<= (car value) (car Max))
+    (if(<= (cadr value) (cdr Max))
     #t #f) 
    #f)
 )
@@ -275,7 +264,7 @@
 
 (
  define(EvalFunc x)
- (if(equal? box #f)
+ (if(equal? Min Max)
     "ERROR Bounding box have not been made"
   (cond ((equal? (car x) 'LINE)
          (line
@@ -304,12 +293,14 @@
     ((equal? (car x) 'TEXT-AT) `(("TEXT")(,(caddr x))(,(caadr x),(cadadr x))))
     ((equal? (car x) 'BOUNDING-BOX) 
      
-     (BOUNDING-BOX 
-       "box"
-       (caadr x)
-       (cadadr x)
-       (caaddr x)
-       (car(cdaddr x)))
+	  (set! Min(cons  (caadr x) (cadadr x)))
+	  (set! Max(cons (caaddr x) (car(cdaddr x))))
+     ;(BOUNDING-BOX 
+     ;  "box"
+     ;  (caadr x)
+     ;  (cadadr x)
+     ;  (caaddr x)
+     ;  (car(cdaddr x)))
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
