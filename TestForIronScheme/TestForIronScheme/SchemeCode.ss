@@ -1,33 +1,24 @@
-(define (BOUNDING-BOX name x1 y1 x2 y2)
- (let* (
-        (Min (cons x1 y1))
-        (Max (cons x2 y2))
-        (get-max (lambda () Max))
-        (get-min (lambda () Min))
-        )
-        (list name (cons 'Min get-min) (cons 'Max get-max))))
-
-(define (get-from-box r name)
-(cdr (assq name (cdr r))))
+(define Min (cons 0 0))
+(define Max (cons 0 0))
 
 (define (IsHeigher value)
-  (if(>= (car value) (car((get-from-box box 'Min))))
-    (if(>= (cadr value) (cdr ((get-from-box box 'Min))))
-    #t)
-    #f)
+  (if (>= (car value) (car Min))   
+   (if(>= (cadr value) (cdr Min))
+    #t #f)
+   #f)
 )
 
 (define (IsLower value)
-  (if(<= (car value) (car((get-from-box box 'Max))))
-    (if(<= (cadr value) (cdr ((get-from-box box 'Max))))
-    #t) #f)
+  (if(<= (car value) (car Max))
+    (if(<= (cadr value) (cdr Max))
+    #t #f) 
+   #f)
 )
 
 (define (Limiter l)
  (filter IsHeigher (filter IsLower l))
 )
 
-  (define box (BOUNDING-BOX 'box 1 1 5 5))
 
 (define (drawCircle x0 y0 r)
    (define f (- 1 r))
@@ -219,7 +210,8 @@
                 )
       (if (> x0x x1x)
           ;Return the list with the color
-          (cons color listToReturn)
+          ;not adding the color here anymore (cons color listToReturn)
+		  listToReturn
  (let loopy ((x0y x0x)
                (y0y y0x)
                (x1y x1x)
@@ -273,16 +265,15 @@
 
 (
  define(EvalFunc x)
- 
-  ;;TODO: insert check that boundingbox has been called
-  
+ (if(equal? Min Max)
+    "ERROR Bounding box have not been made"
   (cond ((equal? (car x) 'LINE)
-         (line
+  `(("FIGURE") ("Black")
+         ,(line
            (caadr x)
            (cadadr x)
            (caaddr x)
-           (car(cdaddr x))
-            '())
+           (car(cdaddr x))))
          
          )
 
@@ -303,12 +294,14 @@
     ((equal? (car x) 'TEXT-AT) `(("TEXT")(,(caddr x))(,(caadr x),(cadadr x))))
     ((equal? (car x) 'BOUNDING-BOX) 
      
-     (BOUNDING-BOX 
-       "box"
-       (caadr x)
-       (cadadr x)
-       (caaddr x)
-       (car(cdaddr x)))
+	  (set! Min(cons  (caadr x) (cadadr x)))
+	  (set! Max(cons (caaddr x) (car(cdaddr x))))
+     ;(BOUNDING-BOX 
+     ;  "box"
+     ;  (caadr x)
+     ;  (cadadr x)
+     ;  (caaddr x)
+     ;  (car(cdaddr x)))
      
      )
     ((equal? (car x) 'DRAW) "Draw was called")
@@ -335,4 +328,9 @@
               (caddr(caddr x)))))
            (else '(("ERROR")("Cannot fill that figure")))))
     (else '(("ERROR")("Invalid function call"))))
+))
+          
+
+(define (DRAW color toDraw)
+  (cons color (map (lambda (x) (EvalFunc x)) toDraw))
 )
