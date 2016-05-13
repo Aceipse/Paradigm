@@ -265,30 +265,30 @@
 
 (
  define(EvalFunc x)
- (if(equal? Min Max)
+ (if(and (equal? Min Max)(not(equal? (car x) 'BOUNDING-BOX)))
     "ERROR Bounding box have not been made"
   (cond ((equal? (car x) 'LINE)
   `(("FIGURE") ("Black")
-         ,(line
+         ,(Limiter(line
            (caadr x)
            (cadadr x)
            (caaddr x)
-           (car(cdaddr x))))
+           (car(cdaddr x)))))
          
          )
 
         ((equal? (car x) 'RECTANGLE)
 		(begin
 		"RECTANGLE CALLED"
-		(list (list "FIGURE") (list "BLACK") (rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x))))))
+		(list (list "FIGURE") (list "BLACK") (Limiter(rectangle (caadr x) (cadadr x) (caaddr x) (car (cdaddr x)))))))
 
     ((equal? (car x) 'CIRCLE)
      
      `(("FIGURE") ("Black")
-     ,(drawCircle
+     ,(Limiter(drawCircle
        (caadr x)
        (cadadr x)
-       (caddr x))))
+       (caddr x)))))
     
     
     ((equal? (car x) 'TEXT-AT) `(("TEXT")(,(caddr x))(,(caadr x),(cadadr x))))
