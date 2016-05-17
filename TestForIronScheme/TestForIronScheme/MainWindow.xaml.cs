@@ -57,51 +57,59 @@ namespace TestForIronScheme
 
         private void Input_KeyUp(object sender, KeyEventArgs e)
         {
-            if ((e.Key == Key.Enter) || (e.Key == Key.RightShift))
+            if (e.Key == Key.RightShift)
             {
-                try
+                for (int i = 0; i < Input.LineCount; i++)
                 {
-                    var val = schemeHandler.Evaluate("(EvalFunc '" + Input.Text + ")");
-                    Log(val.ToString());
+                    //try
+                    //{
+                        var val = schemeHandler.Evaluate("(EvalFunc '" + Input.GetLineText(i) + ")");
+                        if (val.GetType()!= typeof(Cons))
+                        {
+                            continue;
+                        }
+                        //Log(val.ToString());
 
-                    Cons valueList = (Cons)val;
-                    string datatype = ((Cons)valueList.car).car.ToString();
+                        Cons valueList = (Cons)val;
+                        string datatype = ((Cons)valueList.car).car.ToString();
 
-                    SchemeDataHandler schemeWorker;
-                    switch (datatype)
-                    {
-                        case "ERROR":
-                            schemeWorker = new ErrorHandler(this);
-                            break;
-                        case "TEXT":
-                            schemeWorker = new TextHandler(this);
-                            break;
-                        case "FIGURE":
-                            schemeWorker = new FigureHandler(this);
-                            break;
-                        default:
-                            throw new Exception("datatype '" + datatype + "' received from scheme is not supported");
-                    }
+                        SchemeDataHandler schemeWorker;
+                        switch (datatype)
+                        {
+                            case "ERROR":
+                                schemeWorker = new ErrorHandler(this);
+                                break;
+                            case "TEXT":
+                                schemeWorker = new TextHandler(this);
+                                break;
+                            case "FIGURE":
+                                schemeWorker = new FigureHandler(this);
+                                break;
+                            default:
+                                throw new Exception("datatype '" + datatype + "' received from scheme is not supported");
+                        }
 
-                    Cons dataList = (Cons)valueList.cdr;
-                    schemeWorker.Handle(dataList);
-                }
-                catch (Exception ex)
-                {
-                    try
-                    {
-                        var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
-                        Log(json);
-                    }
-                    catch (Exception)
-                    {
-                        Log(ex.Message);
-                    }
+                        Cons dataList = (Cons)valueList.cdr;
+                        schemeWorker.Handle(dataList);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    try
+                    //    {
+                    //        var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                    //        Log(json);
+                    //    }
+                    //    catch (Exception)
+                    //    {
+                    //        Log(ex.Message);
+                    //    }
+                    //}
                 }
             }
-            else if ((e.Key == Key.C))
+            else if (e.Key == Key.X && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 myCanvas.Children.Clear();
+                drawGrid();
             }
         }
 

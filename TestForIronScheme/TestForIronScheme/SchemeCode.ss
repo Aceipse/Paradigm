@@ -266,7 +266,7 @@
 (
  define(EvalFunc x)
  (if(and (equal? Min Max)(not(equal? (car x) 'BOUNDING-BOX)))
-    "ERROR Bounding box have not been made"
+    '(("ERROR")("Bounding box not defined yet"))
   (cond ((equal? (car x) 'LINE)
   `(("FIGURE") ("Black")
          ,(Limiter(line
@@ -293,18 +293,12 @@
     
     ((equal? (car x) 'TEXT-AT) `(("TEXT")(,(caddr x))(,(caadr x),(cadadr x))))
     ((equal? (car x) 'BOUNDING-BOX) 
-     
 	  (set! Min(cons  (caadr x) (cadadr x)))
 	  (set! Max(cons (caaddr x) (car(cdaddr x))))
-     ;(BOUNDING-BOX 
-     ;  "box"
-     ;  (caadr x)
-     ;  (cadadr x)
-     ;  (caaddr x)
-     ;  (car(cdaddr x)))
-     
      )
-    ((equal? (car x) 'DRAW) "Draw was called")
+    ((equal? (car x) 'DRAW) 
+	`(("FIGURE")(,(cadr x)),(drawRecursive (cddr x)))
+	)
     ((equal? (car x) 'FILL)
     ;Check which fill function it was, only circle and rectangle allowed
      
@@ -330,7 +324,7 @@
     (else '(("ERROR")("Invalid function call"))))
 ))
           
-
-(define (DRAW color toDraw)
-  (cons color (map (lambda (x) (EvalFunc x)) toDraw))
-)
+(define drawRecursive (lambda (lst)
+    (if (null? lst)
+        lst
+        (append (caddr (EvalFunc(car lst))) (drawRecursive (cdr lst)) ))))
