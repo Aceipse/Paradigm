@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForIronScheme", "TestForIronScheme\TestForIronScheme.csproj", "{3180DC61-0232-4796-B518-288094FA27C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2638FE53-5487-499C-9933-9F79994F4414}"
-	ProjectSection(SolutionItems) = preProject
-		C:\Users\marti\Desktop\Paradigm.txt = C:\Users\marti\Desktop\Paradigm.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
