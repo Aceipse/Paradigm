@@ -64,11 +64,11 @@ namespace TestForIronScheme
                     try
                     {
                         var val = schemeHandler.Evaluate("(EvalFunc '" + Input.GetLineText(i) + ")");
-                        if (val.GetType()!= typeof(Cons))
+                        if (val.GetType() != typeof(Cons))
                         {
                             continue;
                         }
-                        //Log(val.ToString());
+
 
                         Cons valueList = (Cons)val;
                         string datatype = ((Cons)valueList.car).car.ToString();
@@ -94,14 +94,14 @@ namespace TestForIronScheme
                     }
                     catch (Exception ex)
                     {
-                       try
-                       {
-                          var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                        try
+                        {
+                            var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
                             Log(json);
                         }
                         catch (Exception)
                         {
-                           Log(ex.Message);
+                            Log(ex.Message);
                         }
                     }
                 }
@@ -119,12 +119,55 @@ namespace TestForIronScheme
             drawGrid();
         }
 
+        public SchemeDataHandler GetHandler(string datatype)
+        {
+            try
+            {
+                switch (datatype)
+                {
+                    case "ERROR":
+                        return new ErrorHandler(this);
+                    case "TEXT":
+                        return new TextHandler(this);
+
+                    case "FIGURE":
+                        return new FigureHandler(this);
+
+                    default:
+                        throw new Exception("datatype '" + datatype + "' received from scheme is not supported");
+                }
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    Log(ex.Message);
+                    //var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                    //Log(json);
+                }
+                catch (Exception)
+                {
+                    Log(ex.Message);
+                }
+            }
+
+
+            return null;
+        }
+
+        //Made for testing purpuses
+        public string GetDisplayText()
+        {
+            return DisplayArea.Text;
+        }
+
+
         public void Log(string txt)
         {
             DisplayArea.Text = DisplayArea.Text.Insert(0, "\n");
             DisplayArea.Text = DisplayArea.Text.Insert(0, txt);
             DisplayArea.Text = DisplayArea.Text.Insert(0, "\n");
-            DisplayArea.Text = DisplayArea.Text.Insert(0, "------------NEW ENTRY " + DateTime.Now.ToLongTimeString());
+            DisplayArea.Text = DisplayArea.Text.Insert(0, "------------NEW ENTRY");
         }
     }
 }
