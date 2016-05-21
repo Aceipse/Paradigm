@@ -61,8 +61,8 @@ namespace TestForIronScheme
             {
                 for (int i = 0; i < Input.LineCount; i++)
                 {
-                    //try
-                    //{
+                    try
+                    {
                         var val = schemeHandler.Evaluate("(EvalFunc '" + Input.GetLineText(i) + ")");
                         if (val.GetType()!= typeof(Cons))
                         {
@@ -91,19 +91,19 @@ namespace TestForIronScheme
 
                         Cons dataList = (Cons)valueList.cdr;
                         schemeWorker.Handle(dataList);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    try
-                    //    {
-                    //        var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
-                    //        Log(json);
-                    //    }
-                    //    catch (Exception)
-                    //    {
-                    //        Log(ex.Message);
-                    //    }
-                    //}
+                    }
+                    catch (Exception ex)
+                    {
+                       try
+                       {
+                          var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
+                            Log(json);
+                        }
+                        catch (Exception)
+                        {
+                           Log(ex.Message);
+                        }
+                    }
                 }
             }
             else if (e.Key == Key.X && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)

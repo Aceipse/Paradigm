@@ -108,19 +108,7 @@ namespace TestForIronScheme
 
         private void makeDot(double x, double y, Color color)
         {
-            /*Ellipse myEllipse = new Ellipse();
-            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-            mySolidColorBrush.Color = Colors.Red;
-            myEllipse.Fill = mySolidColorBrush;
-            myEllipse.StrokeThickness = 1;
-            myEllipse.Stroke = Brushes.White;
-            myEllipse.Width = 5;
-            myEllipse.Height = 5;
-            Canvas.SetTop(myEllipse, centerY - y);
-            Canvas.SetLeft(myEllipse, centerX + x);
-            myCanvas.Children.Add(myEllipse);*/
-
-            var offsetpoint = offsetPoint(x, y);
+           var offsetpoint = offsetPoint(x, y);
 
             Rectangle myRec = new Rectangle();
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
