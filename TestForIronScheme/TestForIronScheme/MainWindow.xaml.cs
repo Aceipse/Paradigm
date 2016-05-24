@@ -142,8 +142,6 @@ namespace TestForIronScheme
                 try
                 {
                     Log(ex.Message);
-                    //var json = JsonConvert.SerializeObject(ex, Formatting.Indented);
-                    //Log(json);
                 }
                 catch (Exception)
                 {
